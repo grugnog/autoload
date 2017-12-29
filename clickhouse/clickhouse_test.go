@@ -3,7 +3,6 @@ package clickhouse
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os/exec"
 	"strings"
@@ -53,7 +52,6 @@ func TestIntegration(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Println(lines)
 	if lines != string(target) {
 		t.Errorf("Output schema does not match target:\n%v", diff.LineDiff(lines, string(target)))
 	}

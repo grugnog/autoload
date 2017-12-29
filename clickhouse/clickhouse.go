@@ -128,7 +128,6 @@ func (d *Driver) parseColumns(input interface{}) (names, types []string, values 
 			v, err = column.Value.(json.Number).Int64()
 			t = "Int64"
 			if err != nil {
-				fmt.Println(err)
 				v, err = column.Value.(json.Number).Float64()
 				t = "Float64"
 				if err != nil {
