@@ -1,4 +1,5 @@
 CREATE TABLE default.name ( _test_date Date,
+  _test_hash UInt64,
   _test_id Int64,
   _test_timestamp DateTime,
   billable UInt8,
@@ -26,7 +27,7 @@ CREATE TABLE default.name ( _test_date Date,
   user_assignment_is_active UInt8,
   user_assignment_is_project_manager UInt8,
   user_assignment_updated_at DateTime,
-  user_name String) ENGINE = ReplacingMergeTree(_test_date,
- _test_id,
- 8192,
- _test_timestamp)
+  user_name String) ENGINE = MergeTree(_test_date,
+ (_test_id,
+ _test_hash),
+ 8192)

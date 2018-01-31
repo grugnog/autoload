@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"io/ioutil"
+	"log"
+	"os"
 	"os/exec"
 	"strings"
 	"testing"
@@ -13,6 +15,7 @@ import (
 	_ "github.com/kshvakov/clickhouse"
 )
 
+// Really basic end-to-end test.
 func TestIntegration(t *testing.T) {
 	cmd := exec.Command("docker-compose", "up", "--force-recreate")
 	err := cmd.Start()
@@ -33,13 +36,17 @@ func TestIntegration(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	logger := log.New(os.Stderr, "", log.Ldate|log.Ltime)
 	driver := Driver{
-		DB:        connect,
-		ID:        "_test_id",
-		Datestamp: "_test_date",
-		Timestamp: "_test_timestamp",
+		DB:         connect,
+		ID:         "_test_id",
+		Datestamp:  "_test_date",
+		Timestamp:  "_test_timestamp",
+		Hash:       "_test_hash",
+		LatestView: "%s_latest",
+		Logger:     logger,
 	}
-	err = driver.Insert(input, "name", json.Number("1"), "2017-06-27T16:47:14Z")
+	err = driver.Insert(input, "name", 1, "2017-06-27T16:47:14Z")
 	if err != nil {
 		t.Error(err)
 	}

@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/araddon/dateparse"
+	"github.com/mitchellh/hashstructure"
 )
 
 type Column struct {
@@ -60,6 +61,10 @@ func flatten(top bool, flatMap map[string]interface{}, nested interface{}, prefi
 		return errors.New("nested input must be a map")
 	}
 	return nil
+}
+
+func ToHash(v interface{}) (uint64, error) {
+	return hashstructure.Hash(v, nil)
 }
 
 func ToDateTime(datestr string) (date, time bool, d time.Time) {
