@@ -21,6 +21,7 @@ type Driver struct {
 	Hash       string
 	LatestView string
 	Logger     logger
+	Debug      logger
 }
 
 func (d *Driver) Insert(input interface{}, table string, id int64, timestamp string) error {
@@ -38,7 +39,7 @@ func (d *Driver) Insert(input interface{}, table string, id int64, timestamp str
 			return err
 		}
 		if dataLoaded == true {
-			d.Logger.Printf("Skipping insert for %d, record is already loaded", id)
+			d.Debug.Printf("Skipping insert for %d, record is already loaded", id)
 			return nil
 		}
 	}
@@ -50,7 +51,7 @@ func (d *Driver) Insert(input interface{}, table string, id int64, timestamp str
 	if err != nil {
 		return err
 	}
-	d.Logger.Printf("Inserting record %d into %s", id, table)
+	d.Debug.Printf("Inserting record %d into %s", id, table)
 	err = d.insertData(table, names, values)
 	if err != nil {
 		return err
